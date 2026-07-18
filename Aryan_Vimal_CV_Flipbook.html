@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aryan Vimal — CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F1ECE2;
+    --paper-shade:#E7E0D1;
+    --cover:#16233F;
+    --cover-2:#0F1A30;
+    --ink:#221F1B;
+    --ink-soft:#5B564C;
+    --teal:#1F6F78;
+    --amber:#C97A1A;
+    --rule:#CBC1AB;
+    --rust:#9A3F2B;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(ellipse at top, #FFFFFF 0%, #EAE4D4 75%);
+    font-family:'Source Serif 4', serif;
+    color:var(--ink);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    overflow-x:hidden;
+  }
+
+  /* ---------- header strip ---------- */
+  .masthead{
+    width:100%;
+    text-align:center;
+    padding:28px 16px 10px;
+    color:var(--cover);
+  }
+  .masthead .kicker{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--amber);
+    margin-bottom:6px;
+  }
+  .masthead h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:22px;
+    letter-spacing:.02em;
+    margin:0;
+    font-weight:600;
+  }
+
+  /* ---------- stage ---------- */
+  .stage{
+    width:100%;
+    max-width:480px;
+    padding:18px 14px 10px;
+    perspective:2400px;
+    display:flex;
+    justify-content:center;
+  }
+  .book{
+    position:relative;
+    width:100%;
+    max-width:400px;
+    aspect-ratio: 5 / 7.2;
+    transform-style:preserve-3d;
+  }
+
+  /* spine */
+  .spine{
+    position:absolute;
+    left:-7px;
+    top:2%;
+    bottom:2%;
+    width:14px;
+    background:linear-gradient(180deg,var(--cover),var(--cover-2));
+    border-radius:6px 0 0 6px;
+    box-shadow: inset -3px 0 6px rgba(0,0,0,.35), 0 6px 18px rgba(0,0,0,.4);
+    z-index:0;
+  }
+  .spine::before{
+    content:"";
+    position:absolute;
+    inset:6% 0;
+    left:5px;
+    width:1px;
+    background-image:repeating-linear-gradient(180deg, #C97A1A 0 6px, transparent 6px 14px);
+    opacity:.55;
+  }
+
+  .page{
+    position:absolute;
+    inset:0;
+    background:var(--paper);
+    border-radius:2px 8px 8px 2px;
+    box-shadow: 4px 6px 18px rgba(0,0,0,.35), inset -1px 0 0 rgba(0,0,0,.06);
+    transform-origin:left center;
+    transform:rotateY(0deg);
+    backface-visibility:hidden;
+    transition:transform .85s cubic-bezier(.6,.05,.25,1);
+    padding:26px 22px 20px;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .page.flipped{
+    transform:rotateY(-178deg);
+    pointer-events:none;
+  }
+  .page::-webkit-scrollbar{width:5px;}
+  .page::-webkit-scrollbar-thumb{background:var(--rule); border-radius:4px;}
+
+  .page-index-tag{
+    position:absolute;
+    top:16px; right:-1px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:9px;
+    letter-spacing:.16em;
+    color:var(--ink-soft);
+    writing-mode:vertical-rl;
+    opacity:.6;
+  }
+
+  /* texture: faint horizontal rule lines like a ledger */
+  .page::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image: linear-gradient(var(--paper-shade) 1px, transparent 1px);
+    background-size: 100% 28px;
+    background-position: 0 74px;
+    opacity:.35;
+    pointer-events:none;
+  }
+  .page > *{ position:relative; z-index:1; }
+
+  /* ---------- COVER ---------- */
+  .cover{
+    background:
+      radial-gradient(circle at 25% 15%, #FBF8F0, transparent 55%),
+      linear-gradient(155deg, #FFFFFF 0%, #F3EEE1 100%);
+    color:var(--ink);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    border:1px solid var(--rule);
+  }
+  .cover::after{ display:none; }
+  .cover .brand-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--amber);
+  }
+  .cover h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:clamp(30px,7vw,40px);
+    line-height:1.05;
+    margin:10px 0 6px;
+    font-weight:700;
+    color:var(--cover);
+  }
+  .cover .role{
+    font-size:14px;
+    color:var(--ink-soft);
+    font-style:italic;
+    max-width:24ch;
+  }
+  .cover .meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    line-height:1.9;
+  }
+  .cover .meta a{ color:var(--teal); text-decoration:none; border-bottom:1px dotted rgba(31,111,120,.5); }
+  .cover .tape{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    color:var(--ink-soft);
+    letter-spacing:.08em;
+    border-top:1px solid var(--rule);
+    padding-top:10px;
+  }
+
+  /* ---------- shared content styles ---------- */
+  h2.section{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:12px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--teal);
+    margin:0 0 10px;
+    padding-bottom:6px;
+    border-bottom:1px solid var(--rule);
+  }
+  p.body-text{
+    font-size:13.5px;
+    line-height:1.62;
+    color:var(--ink);
+    margin:0 0 14px;
+  }
+  .tag-row{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    padding:3px 8px;
+    border:1px solid var(--rule);
+    border-radius:3px;
+    color:var(--ink-soft);
+    background:rgba(255,255,255,.4);
+  }
+  .skill-block{ margin-bottom:12px; }
+  .skill-block .label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    color:var(--amber);
+    display:block;
+    margin-bottom:5px;
+  }
+  .skill-block .val{ font-size:12.5px; line-height:1.55; color:var(--ink); }
+
+  .role-block{ margin-bottom:16px; }
+  .role-title{ font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:14.5px; margin:0; }
+  .role-meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    color:var(--ink-soft);
+    margin:2px 0 8px;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:4px;
+  }
+  ul.clean{ margin:0; padding-left:16px; }
+  ul.clean li{ font-size:12.8px; line-height:1.55; margin-bottom:5px; color:var(--ink); }
+  ul.clean li::marker{ color:var(--rust); }
+
+  .proj-title{ font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:15px; margin:0 0 2px; }
+  .proj-sub{ font-family:'IBM Plex Mono', monospace; font-size:10px; color:var(--ink-soft); margin-bottom:6px; }
+  .proj-link{
+    display:inline-flex; align-items:center; gap:5px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    color:var(--teal);
+    text-decoration:none;
+    border-bottom:1px dotted var(--teal);
+    margin-bottom:10px;
+  }
+  .proj-link:before{ content:"↗"; }
+  hr.thin{ border:none; border-top:1px dashed var(--rule); margin:16px 0; }
+
+  .edu-title{ font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:14px; margin:0; }
+  .edu-meta{ font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--ink-soft); margin:2px 0 8px; }
+
+  .closing{
+    display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; height:100%;
+  }
+  .closing .stamp{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--rust);
+    border:1px solid var(--rust);
+    padding:6px 10px;
+    border-radius:3px;
+    transform:rotate(-3deg);
+    margin-bottom:14px;
+  }
+
+  /* ---------- nav ---------- */
+  .controls{
+    width:100%;
+    max-width:480px;
+    padding:6px 20px 10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:16px;
+  }
+  .nav-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--cover);
+    background:#FFFFFF;
+    border:1px solid var(--rule);
+    padding:9px 16px;
+    border-radius:20px;
+    cursor:pointer;
+    letter-spacing:.05em;
+    transition:background .2s, opacity .2s, transform .2s;
+    user-select:none;
+    box-shadow:0 2px 6px rgba(0,0,0,.06);
+  }
+  .nav-btn:hover{ background:#F3EEE1; }
+  .nav-btn:active{ transform:scale(.96); }
+  .nav-btn[disabled]{ opacity:.3; pointer-events:none; }
+  .nav-btn.play{ color:var(--teal); border-color:var(--teal); }
+  .nav-btn.play.on{ background:var(--teal); color:#fff; }
+  .page-count{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    min-width:44px;
+    text-align:center;
+  }
+
+  .tabs{
+    width:100%;
+    max-width:480px;
+    display:flex;
+    gap:6px;
+    overflow-x:auto;
+    padding:2px 20px 26px;
+    scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar{ display:none; }
+  .tab-btn{
+    flex:0 0 auto;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:9.5px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    background:#FFFFFF;
+    border:1px solid var(--rule);
+    padding:5px 10px;
+    border-radius:14px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:all .2s;
+  }
+  .tab-btn.active{
+    color:#fff;
+    background:var(--amber);
+    border-color:var(--amber);
+  }
+
+  @media (max-width:380px){
+    .stage{ max-width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="kicker">Curriculum Vitae · Flip Edition</div>
+  <h1>Aryan Vimal</h1>
+</div>
+
+<div class="stage">
+  <div class="book" id="book">
+    <div class="spine"></div>
+
+    <!-- PAGE 0 : COVER -->
+    <section class="page cover" data-tab="cover">
+      <div>
+        <div class="brand-eyebrow">Data · QA · Analytics</div>
+        <h1>Aryan<br>Vimal</h1>
+        <div class="role">Data Engineer & Analyst — Quality Assurance Analyst</div>
+      </div>
+      <div>
+        <div class="meta">
+          Kanpur Nagar, Uttar Pradesh, India<br>
+          +91-8576803898<br>
+          aryanvimal_202310101150133@srmu.ac.in<br>
+          <a href="https://linkedin.com/in/dataaryan" target="_blank">LinkedIn</a> ·
+          <a href="https://github.com/aryanvimal202310101150133-cloud" target="_blank">GitHub</a> ·
+          <a href="https://aryanvimal202310101150133-cloud.github.io/Aryan-Portfolio.github.io/" target="_blank">Portfolio</a>
+        </div>
+        <div class="tape">TAP → TO OPEN THE FILE</div>
+      </div>
+    </section>
+
+    <!-- PAGE 1 : SUMMARY + SKILLS -->
+    <section class="page" data-tab="summary">
+      <span class="page-index-tag">01 — PROFILE</span>
+      <h2 class="section">Professional Summary</h2>
+      <p class="body-text">Results-driven Computer Science undergraduate specializing in Data Science & AI, combining Data Engineering, Data Analytics and Quality Assurance. Builds data cleaning and automated reporting pipelines with Python and SQL, and turns messy datasets into reliable insight through EDA and BI dashboards. Currently interning at Sysculus Systems Private Limited across the full Software Testing Life Cycle. Seeking a full-time role as a Data Engineer, Data Analyst or QA Analyst.</p>
+
+      <h2 class="section">Technical Skills</h2>
+      <div class="skill-block">
+        <span class="label">Languages</span>
+        <div class="val">Python (Pandas, NumPy, EDA) · SQL (Joins, Subqueries, Aggregations)</div>
+      </div>
+      <div class="skill-block">
+        <span class="label">Data Engineering</span>
+        <div class="val">Pipelines, Automated Reporting, Data Cleaning, Basic ETL, Data Modeling</div>
+      </div>
+      <div class="skill-block">
+        <span class="label">BI & Visualization</span>
+        <div class="val">Power BI (DAX, Dashboards) · Excel (Pivot Tables, XLOOKUP)</div>
+      </div>
+      <div class="skill-block">
+        <span class="label">QA & Testing</span>
+        <div class="val">STLC · SDLC · Agile · Defect Tracking · Test Case Design</div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">Agentic AI</span>
+        <span class="tag">AI-Powered QA</span>
+        <span class="tag">KPI Tracking</span>
+        <span class="tag">Requirement Gathering</span>
+      </div>
+    </section>
+
+    <!-- PAGE 2 : EXPERIENCE -->
+    <section class="page" data-tab="experience">
+      <span class="page-index-tag">02 — EXPERIENCE</span>
+      <h2 class="section">Experience</h2>
+      <div class="role-block">
+        <p class="role-title">Quality Assurance Analyst / Testing Intern</p>
+        <div class="role-meta"><span>Sysculus Systems Pvt. Ltd.</span><span>Jun 2026 – Sep 2026</span></div>
+        <ul class="clean">
+          <li>Executed manual testing for web applications and identified software defects.</li>
+          <li>Designed and executed test cases, scenarios, and test plans.</li>
+          <li>Performed Functional, Smoke, Sanity, and Regression Testing.</li>
+          <li>Logged, tracked, and verified defects using structured bug reports.</li>
+          <li>Validated bug fixes and ensured software quality before release.</li>
+          <li>Collaborated with developers to resolve defects in Agile environments.</li>
+          <li>Prepared test reports and maintained documentation following STLC.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PAGE 3 : PROJECTS -->
+    <section class="page" data-tab="projects">
+      <span class="page-index-tag">03 — PROJECTS</span>
+      <h2 class="section">Projects</h2>
+
+      <p class="proj-title">Retail Sales Analytics Dashboard</p>
+      <div class="proj-sub">Python (Pandas) · HTML · CSS · JS · Chart.js</div>
+      <a class="proj-link" href="https://aryanvimal202310101150133-cloud.github.io/sales-Data-Analysis/" target="_blank">View live dashboard</a>
+      <ul class="clean">
+        <li>End-to-end dashboard on a 10,000+ record retail dataset (2023–2026), turning raw sales data into business insight.</li>
+        <li>Sales & profit trends, region/state performance, category breakdown, top customers, shipping-mode analysis.</li>
+        <li>Found Technology & Office Supplies drove the highest profit, while Furniture led sales but lagged in margin.</li>
+      </ul>
+
+      <hr class="thin">
+
+      <p class="proj-title">VerityQA — Test Management Console</p>
+      <div class="proj-sub">HTML5 · CSS3 · JavaScript · under Dr. Nakul Vashishth</div>
+      <a class="proj-link" href="https://aryanvimal202310101150133-cloud.github.io/QA-Dashboard-/" target="_blank">View live console</a>
+      <ul class="clean">
+        <li>Centralized platform for projects, test repositories, cases, suites, and execution reports.</li>
+        <li>Secure login, test execution tracking, pass/fail analytics, and defect activity monitoring.</li>
+        <li>Sharpened understanding of STLC and real-world QA process design.</li>
+      </ul>
+    </section>
+
+    <!-- PAGE 4 : EDUCATION + CERTS -->
+    <section class="page" data-tab="education">
+      <span class="page-index-tag">04 — EDUCATION</span>
+      <h2 class="section">Education</h2>
+      <p class="edu-title">B.Tech, Computer Science — Data Science & AI</p>
+      <div class="edu-meta">Shri Ram Swaroop Memorial University, Lucknow · 2023–2027 · CGPA 6.66/10</div>
+      <p class="body-text" style="margin-top:-4px;">Coursework: Data Structures, DBMS, Machine Learning, Statistics, Software Engineering.</p>
+
+      <h2 class="section">Certifications</h2>
+      <ul class="clean">
+        <li>Goldman Sachs — Risk Job Simulation (Forage), 2026</li>
+        <li>Deloitte Australia — Data Analytics Job Simulation (Forage), 2026</li>
+        <li>Python Programming & Web Development — L&T EduTech</li>
+        <li>HTML Certification — SoloLearn</li>
+        <li>Google AI-Powered Shopping Ads Certification</li>
+      </ul>
+    </section>
+
+    <!-- PAGE 5 : BACK COVER -->
+    <section class="page cover" data-tab="contact">
+      <div>
+        <div class="brand-eyebrow">Additional Highlights</div>
+        <p class="role" style="max-width:30ch; margin-top:14px;">Agentic AI & ChatGPT for automated test-case generation · sharp analytical thinking · strong grasp of business KPIs and data-quality reliability.</p>
+      </div>
+      <div class="closing">
+        <div class="stamp">Open to work</div>
+        <div class="meta">
+          aryanvimal_202310101150133@srmu.ac.in<br>
+          +91-8576803898<br>
+          <a href="https://linkedin.com/in/dataaryan" target="_blank">linkedin.com/in/dataaryan</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="controls">
+  <button class="nav-btn" id="prevBtn">‹ Prev</button>
+  <span class="page-count" id="pageCount">1 / 6</span>
+  <button class="nav-btn" id="nextBtn">Next ›</button>
+  <button class="nav-btn play" id="playBtn">▶ Auto</button>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<script>
+  const pages = Array.from(document.querySelectorAll('.page'));
+  const total = pages.length;
+  let current = 0; // index of the topmost UN-flipped page
+
+  pages.forEach((p,i)=>{ p.style.zIndex = total - i; });
+
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const pageCount = document.getElementById('pageCount');
+  const tabsWrap = document.getElementById('tabs');
+
+  const tabLabels = {
+    cover:'Cover', summary:'Profile', experience:'Experience',
+    projects:'Projects', education:'Education', contact:'Contact'
+  };
+  pages.forEach((p,i)=>{
+    const btn = document.createElement('button');
+    btn.className='tab-btn';
+    btn.textContent = tabLabels[p.dataset.tab] || ('Page '+(i+1));
+    btn.addEventListener('click', ()=> jumpTo(i));
+    tabsWrap.appendChild(btn);
+  });
+  const tabBtns = Array.from(tabsWrap.children);
+
+  function updateUI(){
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+    pageCount.textContent = (current+1) + ' / ' + total;
+    tabBtns.forEach((b,i)=> b.classList.toggle('active', i===current));
+  }
+
+  function next(){
+    if(current >= total-1){
+      // loop back to cover
+      for(let i=total-1;i>=0;i--) pages[i].classList.remove('flipped');
+      current = 0;
+      updateUI();
+      return;
+    }
+    pages[current].classList.add('flipped');
+    current++;
+    updateUI();
+  }
+  function prev(){
+    if(current <= 0) return;
+    current--;
+    pages[current].classList.remove('flipped');
+    updateUI();
+  }
+
+  const playBtn = document.getElementById('playBtn');
+  let autoTimer = null;
+  const AUTO_DELAY = 3200;
+
+  function startAuto(){
+    if(autoTimer) return;
+    autoTimer = setInterval(next, AUTO_DELAY);
+    playBtn.textContent = '❚❚ Pause';
+    playBtn.classList.add('on');
+  }
+  function stopAuto(){
+    clearInterval(autoTimer);
+    autoTimer = null;
+    playBtn.textContent = '▶ Auto';
+    playBtn.classList.remove('on');
+  }
+  playBtn.addEventListener('click', ()=>{
+    if(autoTimer) stopAuto(); else startAuto();
+  });
+  // pause auto-play on manual interaction
+  [prevBtn, nextBtn].forEach(b => b.addEventListener('click', stopAuto));
+  tabsWrap.addEventListener('click', stopAuto);
+  document.getElementById('book').addEventListener('click', stopAuto);
+  function jumpTo(target){
+    if(target === current) return;
+    if(target > current){
+      for(let i=current;i<target;i++) pages[i].classList.add('flipped');
+    } else {
+      for(let i=current-1;i>=target;i--) pages[i].classList.remove('flipped');
+    }
+    current = target;
+    updateUI();
+  }
+
+  nextBtn.addEventListener('click', next);
+  prevBtn.addEventListener('click', prev);
+  document.addEventListener('keydown', (e)=>{
+    if(e.key==='ArrowRight') next();
+    if(e.key==='ArrowLeft') prev();
+  });
+
+  // click right/left edge of book to flip
+  document.getElementById('book').addEventListener('click', (e)=>{
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    if(x > rect.width*0.7) next();
+    else if(x < rect.width*0.3) prev();
+  });
+
+  updateUI();
+  startAuto();
+</script>
+
+</body>
+</html>
